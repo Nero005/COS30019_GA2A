@@ -49,7 +49,7 @@ def bfs(nodes, edges, origin, destinations):
 
         # children (neighbours) in ascending order
         for nxt, _cost in sorted(edges.get(node, [])):
-            if nxt in path:          # avoid cycles along this branch
+            if nxt in path: # avoid cycles along this branch
                 continue
             created += 1
             frontier.append(path + [nxt])
