@@ -4,8 +4,8 @@ import sys
 
 def parse_problem(filename):
     """Read the problem file -> (nodes, edges, origin, destinations)."""
-    nodes = {}   # node id -> (x, y)
-    edges = {}   # node id -> list of (neighbour, cost)
+    nodes = {}   #node (x, y)
+    edges = {}   #node (neighbour, cost)
     origin = None
     destinations = []
     section = None
@@ -23,33 +23,33 @@ def parse_problem(filename):
                 section = "origin"
             elif line.startswith("Destinations:"):
                 section = "dest"
-            elif section == "nodes":            # e.g. 1: (4,1)
+            elif section == "nodes": 
                 n, x, y = map(int, re.findall(r"\d+", line))
                 nodes[n] = (x, y)
-            elif section == "edges":            # e.g. (2,1): 4
+            elif section == "edges": 
                 a, b, cost = map(int, re.findall(r"\d+", line))
                 edges.setdefault(a, []).append((b, cost))
             elif section == "origin":
                 origin = int(line)
-            elif section == "dest":             # e.g. 5; 4
+            elif section == "dest": 
                 destinations = [int(d) for d in line.split(";")]
     return nodes, edges, origin, destinations
 
 
 def dfs(nodes, edges, origin, destinations):
 
-    created = 1                      # root counts as a created node
-    frontier = [[origin]]            # stack; each entry is a full path
+    created = 1                      #1 for origin
+    frontier = [[origin]]            #stack, each entry is a full path
 
     while frontier:
-        path = frontier.pop()        # newest = deepest
+        path = frontier.pop()        #newest = deepest
         node = path[-1]
 
         if node in destinations:
             return node, created, path
 
         for nxt, _cost in reversed(sorted(edges.get(node, []))):
-            if nxt in path:          # avoid cycles along this branch
+            if nxt in path:          #avoid cycles along branch
                 continue
             created += 1
             frontier.append(path + [nxt])
