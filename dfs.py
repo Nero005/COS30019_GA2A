@@ -3,7 +3,6 @@ import sys
 
 
 def parse_problem(filename):
-    """Read the problem file -> (nodes, edges, origin, destinations)."""
     nodes = {}   #node (x, y)
     edges = {}   #node (neighbour, cost)
     origin = None
