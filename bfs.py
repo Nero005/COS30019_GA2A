@@ -58,24 +58,18 @@ def bfs(nodes, edges, origin, destinations):
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python search.py <filename> <method>")
+    if len(sys.argv) != 2:
+        print("Usage: python bfs.py <filename>")
         return
-    filename, method = sys.argv[1], sys.argv[2].upper()
+    filename = sys.argv[1]
 
     nodes, edges, origin, destinations = parse_problem(filename)
+    goal, created, path = bfs(nodes, edges, origin, destinations)
 
-    if method == "BFS":
-        result = bfs(nodes, edges, origin, destinations)
+    print(f"{filename} BFS")
+    if goal is None:
+        print(f"No goal is reachable; {created}")
     else:
-        print(f"Method {method} not implemented in this file.")
-        return
-
-    if result is None:
-        print(f"{filename} {method}\nNo goal is reachable; 0")
-    else:
-        goal, created, path = result
-        print(f"{filename} {method}")
         print(f"{goal} {created}")
         print(" ".join(map(str, path)))
 
