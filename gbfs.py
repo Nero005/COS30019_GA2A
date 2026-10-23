@@ -24,9 +24,12 @@ def gbfs(nodes, graph, origin, destinations):
                 frontier,
                 (heuristic(nxt, destinations, nodes), nxt, counter, path + [nxt]),
             )
-    return None
+    return None, created, []
 
-def search():
+def search(nodes, graph, origin, destinations):
+    return gbfs(nodes, graph, origin, destinations)
+
+def main():
     if len(sys.argv) != 3:
         print("Usage: python gbfs.py <filename> <method>")
         return
@@ -40,12 +43,12 @@ def search():
 
     result = gbfs(nodes, graph, origin, destinations)
     print(f"{filename} {method}")
-    if result is None:
-        print("No goal is reachable; 0")
+    if result[0] is None:
+        print(f"No goal is reachable; {result[1]}")
     else:
         goal, created, path = result
         print(f"{goal} {created}")
         print(" ".join(map(str, path)))
 
 if __name__ == "__main__":
-    search()
+    main()

@@ -54,7 +54,11 @@ def bfs(nodes, edges, origin, destinations):
             created += 1
             frontier.append(path + [nxt])
 
-    return None
+    return None, created, []
+
+
+def search(nodes, graph, origin, destinations):
+    return bfs(nodes, graph, origin, destinations)
 
 
 def main():

@@ -42,4 +42,5 @@ def main():
         # line 3: the path
         print(" ".join(str(n) for n in path))
 
-main()
+if __name__ == "__main__":
+    main()
