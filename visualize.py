@@ -1,3 +1,4 @@
+import os
 import sys
 import importlib
 import matplotlib.pyplot as plt
@@ -66,6 +67,9 @@ def main():
     goal, nodes_created, path = algorithm.search(nodes, graph, origin, destinations)
 
     title = method + ": goal " + str(goal) + ", nodes created " + str(nodes_created)
-    draw(nodes, graph, origin, destinations, path, title, "vis_" + method + ".png")
+    os.makedirs("visPhoto", exist_ok=True)   # create the folder if it is missing
+    test_name = os.path.splitext(os.path.basename(filename))[0]
+    out = os.path.join("visPhoto", test_name + "_" + method + ".png")
+    draw(nodes, graph, origin, destinations, path, title, out)
 
 main()
