@@ -192,11 +192,11 @@ def draw_frame(ax, nodes, graph, origin, destinations, title,
 
 def main():
     if len(sys.argv) not in (3, 4):
-        print("Usage: python animate.py <filename> <method> [show]")
+        print("Usage: python animate.py <filename> <method> [noshow]")
         return
     filename = sys.argv[1]
     method = sys.argv[2].upper()
-    show = len(sys.argv) == 4 and sys.argv[3].lower() == "show"
+    show = not (len(sys.argv) == 4 and sys.argv[3].lower() == "noshow")   # window pops up unless "noshow"
     if method not in TRACERS:
         print("Animation is not available for: " + method)
         return
@@ -248,6 +248,8 @@ def main():
     anim.save(out, writer=PillowWriter(fps=1))
     print("Saved " + out)
     if show:
+        # the saved run used up the first animation, so make a fresh one to play in the window
+        window = FuncAnimation(fig, update, frames=len(frames), interval=1000, repeat=False)
         plt.show()
 
 main()
