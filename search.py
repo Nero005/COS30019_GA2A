@@ -26,7 +26,11 @@ def main():
         print("Methods: " + ", ".join(METHODS))
         return
 
-    nodes, graph, origin, destinations = parse_problem(filename)
+    try:
+        nodes, graph, origin, destinations = parse_problem(filename)
+    except FileNotFoundError:
+        print("File not found: " + filename)
+        return
 
     # load only the file for the chosen method
     algorithm = importlib.import_module(METHODS[method])

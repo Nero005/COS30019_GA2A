@@ -26,7 +26,7 @@ def run_one(module_name, nodes, graph, origin, destinations):
         algorithm = importlib.import_module(module_name)
         start = time.perf_counter()
         goal, created, path = algorithm.search(nodes, graph, origin, destinations)
-        second = time.perf_counter() - start
+        seconds = time.perf_counter() - start
     except (ImportError, AttributeError):
         return None            # file is empty or has no search() yet
     cost = path_cost(graph, path) if goal is not None else None

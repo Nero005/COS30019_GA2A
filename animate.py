@@ -83,6 +83,22 @@ def trace_astar(nodes, graph, origin, destinations):
             heapq.heappush(frontier, (new_f, nb, order, new_g, path + [nb]))
     return steps, None, created, []
 
+def trace_ucs(nodes, graph, origin, destinations):
+    steps, created, order = [], 1, 0
+    frontier = [(0, origin, order, [origin])]
+    while frontier:
+        g, node, _, path = heapq.heappop(frontier)
+        steps.append((node, path, [e[1] for e in frontier], created, 0, "g = %g" % g))
+        if node in destinations:
+            return steps, node, created, path
+        for nb, cost in graph.get(node, []):
+            if nb in path:
+                continue
+            order += 1
+            created += 1
+            heapq.heappush(frontier, (g + cost, nb, order, path + [nb]))
+    return steps, None, created, []
+
 def trace_idastar(nodes, graph, origin, destinations):
     steps = []
     state = {"created": 1}
@@ -120,7 +136,7 @@ def trace_idastar(nodes, graph, origin, destinations):
         rnd += 1
 
 TRACERS = {"BFS": trace_bfs, "DFS": trace_dfs, "GBFS": trace_gbfs,
-           "AS": trace_astar, "CUS2": trace_idastar}
+           "AS": trace_astar, "CUS1": trace_ucs, "CUS2": trace_idastar}
 
 def draw_frame(ax, nodes, graph, origin, destinations, title,
                expanded, frontier, current, path, final):
