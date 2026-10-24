@@ -7,7 +7,8 @@ from core import parse_problem
 from search import METHODS
 
 # run_test.py runs every method on every test file in tests/ and prints one
-# results table. It also saves the same data to results.csv for the report.
+# results table. It also saves results.csv (all data) and results_table.csv
+# (one compact row per test) for the report.
 # Each table cell is:  goal / nodes created / path cost
 
 TEST_FOLDER = "tests"
@@ -71,13 +72,21 @@ def main():
     for name, cells in table:
         print("%-9s" % name + "".join("%-12s" % c for c in cells))
 
+    # compact table for the report: one row per test, one column per method
+    with open("results_table.csv", "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Test"] + ORDER)
+        for name, cells in table:
+            # spaces around "/" stop Excel turning a cell like 4/8/10 into a date
+            writer.writerow([name] + [c.replace("/", " / ") for c in cells])
+
     # save the same data for the report
     with open("results.csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["test", "method", "goal", "nodes_created", "path_cost", "time_ms"])
         writer.writerows(rows)
     print()
-    print("Saved results.csv (" + str(len(table)) + " tests)")
+    print("Saved results.csv (full data) and results_table.csv (compact table), " + str(len(table)) + " tests")
 
 if __name__ == "__main__":
     main()
