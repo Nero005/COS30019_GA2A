@@ -1,39 +1,6 @@
-import re
 import sys
+from core import parse_problem
 from collections import deque
-
-
-def parse_problem(filename):
-    nodes = {} # node number: (x, y)
-    edges = {} # node number: list of (neighbour, cost)
-    origin = None
-    destinations = []
-    section = None
-
-    with open(filename) as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            if line.startswith("Nodes:"):
-                section = "nodes"
-            elif line.startswith("Edges:"):
-                section = "edges"
-            elif line.startswith("Origin:"):
-                section = "origin"
-            elif line.startswith("Destinations:"):
-                section = "dest"
-            elif section == "nodes": # e.g. 1: (4,1)
-                n, x, y = map(int, re.findall(r"\d+", line))
-                nodes[n] = (x, y)
-            elif section == "edges": # e.g. (2,1): 4
-                a, b, cost = map(int, re.findall(r"\d+", line))
-                edges.setdefault(a, []).append((b, cost))
-            elif section == "origin":
-                origin = int(line)
-            elif section == "dest": # e.g. 5; 4
-                destinations = [int(d) for d in line.split(";")]
-    return nodes, edges, origin, destinations
 
 
 def bfs(nodes, edges, origin, destinations):
