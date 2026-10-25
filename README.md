@@ -61,6 +61,7 @@ What they mean:
 
 
 4. HOW TO RUN
+Meet requirements below first
 Run a single search method:    python search.py tests/test_01.txt AS
   Output:
     tests/test_01.txt AS
@@ -99,6 +100,6 @@ Note: animate.py re-runs the algorithm step by step and checks the result agains
 Requirements
 
 Python 3.x
-matplotlib  (only needed for animate.py)
+matplotlib  (only needed for animate.py, install with: python -m pip install matplotlib)
 
 
